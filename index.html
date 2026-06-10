@@ -7,22 +7,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
-#wrap{position:relative;width:min(480px,100vw);aspect-ratio:4/3;overflow:hidden;cursor:crosshair;user-select:none;-webkit-user-select:none}
+html,body{width:100%;height:100%;background:#111;overflow:hidden;touch-action:none}
+#wrap{position:fixed;top:0;left:0;width:100vw;height:100vh;overflow:hidden;cursor:crosshair;user-select:none;-webkit-user-select:none}
 #sky{position:absolute;inset:0;z-index:0}
 #ground{position:absolute;bottom:0;left:0;right:0;height:18%;z-index:1}
 #ground::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#2d7d36 0,#2d7d36 8px,#3a9e44 8px,#3a9e44 16px)}
 #wx{position:absolute;inset:0;pointer-events:none;z-index:2}
-#hud{position:absolute;bottom:0;left:0;right:0;height:18%;display:flex;align-items:center;justify-content:space-between;padding:0 12px;pointer-events:none;z-index:10}
-.hbox{background:rgba(0,0,0,0.75);border:2px solid #f5c842;padding:4px 8px;font-family:'Press Start 2P',monospace;font-size:clamp(7px,1.6vw,11px);color:#f0ece0;line-height:1.7}
+#hud{position:absolute;bottom:0;left:0;right:0;height:18%;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(8px,2vw,24px);pointer-events:none;z-index:10}
+.hbox{background:rgba(0,0,0,0.75);border:2px solid #f5c842;padding:4px 8px;font-family:'Press Start 2P',monospace;font-size:clamp(8px,1.4vw,16px);color:#f0ece0;line-height:1.7}
 .hl{color:#f5c842;font-size:.75em}
 #shots-row{display:flex;gap:4px}
-.blt{width:10px;height:14px;background:#f5c842;border-radius:2px 2px 0 0}
+.blt{width:clamp(8px,1.2vw,14px);height:clamp(12px,1.8vw,20px);background:#f5c842;border-radius:2px 2px 0 0}
 .blt.used{background:#555}
 .duck{position:absolute;cursor:crosshair;z-index:5;image-rendering:pixelated}
 .duck canvas{display:block;image-rendering:pixelated}
 #flash{position:absolute;inset:0;background:rgba(255,255,255,.5);opacity:0;pointer-events:none;z-index:20;transition:opacity .08s}
-.floater{position:absolute;font-family:'Press Start 2P',monospace;font-size:clamp(9px,2.2vw,14px);pointer-events:none;z-index:15;-webkit-animation:pop .7s forwards;animation:pop .7s forwards}
+.floater{position:absolute;font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.8vw,20px);pointer-events:none;z-index:15;-webkit-animation:pop .7s forwards;animation:pop .7s forwards}
 @-webkit-keyframes pop{0%{-webkit-transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(-40px);opacity:0}}
 @keyframes pop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-40px);opacity:0}}
 .duck.falling{pointer-events:none;-webkit-animation:dfall 1.8s forwards;animation:dfall 1.8s forwards}
@@ -43,19 +43,19 @@ html,body{width:100%;height:100%;background:#111;display:flex;align-items:center
   100%{transform:translateY(170px) rotate(0deg);opacity:0}
 }
 #overlay{position:absolute;inset:0;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:30;gap:14px;padding:20px;text-align:center}
-#overlay h1{font-family:'Press Start 2P',monospace;font-size:clamp(16px,5vw,28px);color:#f5c842;text-shadow:3px 3px 0 #000,-1px -1px 0 #a00;line-height:1.5}
-#overlay p{font-family:'VT323',monospace;font-size:clamp(18px,4vw,26px);color:#f0ece0;line-height:1.6}
-#overlay button,#quit-btn{font-family:'Press Start 2P',monospace;font-size:clamp(10px,2.5vw,14px);background:#f5c842;color:#000;border:none;border-bottom:4px solid #a07800;padding:12px 24px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#overlay h1{font-family:'Press Start 2P',monospace;font-size:clamp(20px,5vw,52px);color:#f5c842;text-shadow:3px 3px 0 #000,-1px -1px 0 #a00;line-height:1.5}
+#overlay p{font-family:'VT323',monospace;font-size:clamp(20px,3.5vw,38px);color:#f0ece0;line-height:1.6}
+#overlay button,#quit-btn{font-family:'Press Start 2P',monospace;font-size:clamp(12px,2vw,20px);background:#f5c842;color:#000;border:none;border-bottom:4px solid #a07800;padding:clamp(10px,1.5vh,18px) clamp(18px,3vw,36px);cursor:pointer;-webkit-tap-highlight-color:transparent}
 #overlay button:active,#quit-btn:active{-webkit-transform:translateY(3px);transform:translateY(3px);border-bottom-width:1px}
-#quit-btn{position:absolute;top:7px;right:8px;z-index:40;background:#e83030;color:#fff;border-bottom-color:#800;padding:5px 10px;display:none}
-#rb{position:absolute;top:14%;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);font-family:'Press Start 2P',monospace;font-size:clamp(9px,2.5vw,16px);color:#f5c842;text-shadow:2px 2px 0 #000;background:rgba(0,0,0,.7);padding:5px 14px;pointer-events:none;z-index:25;opacity:0;transition:opacity .3s}
+#quit-btn{position:absolute;top:clamp(6px,1vh,14px);right:clamp(8px,1.5vw,18px);z-index:40;background:#e83030;color:#fff;border-bottom-color:#800;padding:clamp(4px,.8vh,8px) clamp(8px,1.2vw,14px);display:none}
+#rb{position:absolute;top:14%;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);font-family:'Press Start 2P',monospace;font-size:clamp(10px,2.2vw,24px);color:#f5c842;text-shadow:2px 2px 0 #000;background:rgba(0,0,0,.7);padding:clamp(4px,1vh,10px) clamp(10px,2vw,20px);pointer-events:none;z-index:25;opacity:0;transition:opacity .3s}
 #rb.show{opacity:1}
-#wb{position:absolute;top:28%;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);font-family:'Press Start 2P',monospace;font-size:clamp(9px,2.5vw,15px);color:#fff;text-shadow:2px 2px 0 #f5c842;background:rgba(0,0,0,.8);border:2px solid #f5c842;padding:10px 18px;z-index:25;pointer-events:none;display:none;text-align:center;line-height:2}
-#dog{position:absolute;bottom:18%;left:8%;z-index:6;display:none;line-height:0}
+#wb{position:absolute;top:28%;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.8vw,18px);color:#fff;text-shadow:2px 2px 0 #f5c842;background:rgba(0,0,0,.8);border:2px solid #f5c842;padding:clamp(8px,1.5vh,16px) clamp(14px,2.5vw,28px);z-index:25;pointer-events:none;display:none;text-align:center;line-height:2}
+#dog{position:absolute;bottom:18%;left:clamp(8px,3vw,40px);z-index:6;display:none;line-height:0}
 #dog.dead{-webkit-animation:dogdie 0.4s forwards;animation:dogdie 0.4s forwards;pointer-events:none}
 @-webkit-keyframes dogdie{0%{-webkit-transform:rotate(0);opacity:1}60%{-webkit-transform:rotate(85deg);opacity:1}100%{-webkit-transform:rotate(90deg) translateY(8px);opacity:0.85}}
 @keyframes dogdie{0%{transform:rotate(0);opacity:1}60%{transform:rotate(85deg);opacity:1}100%{transform:rotate(90deg) translateY(8px);opacity:0.85}}
-#back{position:absolute;top:6px;left:8px;font-family:'Press Start 2P',monospace;font-size:clamp(6px,1.3vw,9px);color:rgba(0,0,0,.5);text-decoration:none;z-index:40}
+#back{position:absolute;top:clamp(6px,1vh,12px);left:clamp(8px,1.5vw,16px);font-family:'Press Start 2P',monospace;font-size:clamp(7px,1vw,12px);color:rgba(0,0,0,.5);text-decoration:none;z-index:40}
 </style>
 </head>
 <body>
@@ -67,7 +67,7 @@ html,body{width:100%;height:100%;background:#111;display:flex;align-items:center
   <div id="flash"></div>
   <div id="rb">ROUND 1</div>
   <div id="wb"></div>
-  <div id="dog" style="width:48px;height:48px"><canvas id="dogc" width="48" height="48" style="display:block;width:48px;height:48px;image-rendering:pixelated"></canvas></div>
+  <div id="dog" style="width:clamp(48px,8vmin,96px);height:clamp(48px,8vmin,96px)"><canvas id="dogc" width="48" height="48" style="display:block;width:100%;height:100%;image-rendering:pixelated"></canvas></div>
   <div id="hud">
     <div class="hbox"><div class="hl">SCORE</div><div id="sc">0</div></div>
     <div class="hbox" style="text-align:center"><div class="hl">ROUND</div><div id="rd">1</div></div>
@@ -305,7 +305,7 @@ function spawnDuck(delay){
     div.className='duck';
     var c=document.createElement('canvas');
     c.width=24;c.height=24;
-    var ds=Math.min(W,480)*.12;
+    var ds=Math.min(W,H)*.09;
     div.style.width=ds+'px';div.style.height=ds+'px';
     c.style.width='100%';c.style.height='100%';
     div.appendChild(c);wrap.appendChild(div);
@@ -527,6 +527,27 @@ wrap.addEventListener('mousedown',function(e){
 });
 // Show high score on start screen now that all functions are defined
 renderHSDisplay();
+
+function onResize(){
+  if(wxCanvas){
+    var W=wrap.offsetWidth,H=wrap.offsetHeight;
+    wxCanvas.width=W;wxCanvas.height=H;
+    if(curScene)initClouds(W);
+  }
+  var W2=wrap.offsetWidth,H2=wrap.offsetHeight;
+  var bot=H2*(1-GF)-52;
+  for(var i=0;i<ducks.length;i++){
+    var d=ducks[i];
+    if(d.x>W2-52){d.x=W2-52;}
+    if(d.y>bot){d.y=bot;}
+    d.div.style.left=d.x+'px';
+    d.div.style.top=d.y+'px';
+    var ds=Math.min(W2,H2)*.09;
+    d.div.style.width=ds+'px';d.div.style.height=ds+'px';
+  }
+}
+window.addEventListener('resize',onResize);
+window.addEventListener('orientationchange',function(){setTimeout(onResize,150);});
 </script>
 </body>
 </html>
