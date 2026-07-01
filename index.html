@@ -515,6 +515,7 @@ el('play-btn').addEventListener('click',startGame);
 wrap.addEventListener('touchstart',function(e){
   if(e.target.className==='duck'||e.target.tagName==='CANVAS')return;
   if(e.target.id==='play-btn'||e.target.id==='quit-btn')return;
+  if(e.target.id==='back'||e.target.closest('#back'))return;
   e.preventDefault();
   var rect=wrap.getBoundingClientRect();
   onMiss(e.changedTouches[0].clientX-rect.left,e.changedTouches[0].clientY-rect.top);
